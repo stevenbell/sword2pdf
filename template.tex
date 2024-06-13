@@ -1,0 +1,50 @@
+% Use memior because it gives all-in-one control over layout
+\documentclass[oneside]{memoir}
+
+% Physical size of the rM1 screen is ?? (4:3 ratio)
+\setstocksize{10in}{7.5in}
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+
+\usepackage{xcolor}
+\definecolor{subdued}{rgb}{0.5, 0.5, 0.5}
+
+% I'm right-handed, so put a large margin on the left for notes and minimize the margin on the right
+\setulmarginsandblock{0.5in}{0.5in}{*}
+\setlrmarginsandblock{3in}{0.25in}{*}
+\setmarginnotes{1em}{1.5in}{1em}% separation, width, push
+\checkandfixthelayout
+
+% Page numbers are useless to me
+\pagestyle{empty}
+\aliaspagestyle{chapter}{empty} % Force chapter pages as well
+
+% Customize spacing here
+\renewcommand{\baselinestretch}{1.6}
+
+% Put chapter numbers to the left of the text, in the margin
+\setbeforesecskip{0in}
+\setaftersecskip{-1.5ex} % Not sure why this is necessary
+\setsecheadstyle{\Huge\bfseries}
+
+% Based on https://tex.stackexchange.com/questions/61182/section-text-without-heading-following-section-number-on-same-line-in-memoir
+\hangsecnum
+\counterwithout{section}{chapter} % Drop chapter number
+\makeatletter
+\newcommand{\hangsection}{%
+  \savebox{\@tempboxa}{\Huge\bfseries\ }%
+  \section{}\hspace*{-\wd\@tempboxa}%
+}
+\makeatother
+
+% Verse numbers
+\newcommand{\versenum}[1]{\textcolor{subdued}{\scriptsize\textsf{#1\,}}}
+
+% Section headings
+% Put these off to the left, out of the main flow of the text
+\reversemarginpar
+\newcommand\sectiontitle[1]{\marginpar{\textit{#1}}}
+
+\begin{document}
+\include{content}
+\end{document}
+
